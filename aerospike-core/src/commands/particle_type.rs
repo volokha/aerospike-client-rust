@@ -49,7 +49,14 @@ impl From<u8> for ParticleType {
             20 => ParticleType::LIST,
             21 => ParticleType::LDT,
             23 => ParticleType::GEOJSON,
-            _ => unreachable!(),
+            // C#Blob
+            // we do not know if it really can be read as default Blob
+            // https://aerospike.com/docs/server/guide/data-types/blob
+            8 => ParticleType::BLOB,
+            _ => {
+                tracing::error!("wrong particle type {}", val);
+                ParticleType::NULL
+            },
         }
     }
 }
