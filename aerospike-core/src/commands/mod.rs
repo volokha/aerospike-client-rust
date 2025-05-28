@@ -69,5 +69,12 @@ pub trait Command {
 }
 
 pub const fn keep_connection(err: &Error) -> bool {
-    matches!(err, Error::ServerError(ResultCode::KeyNotFoundError, _, _))
+    matches!(
+        err,
+        Error::ServerError(
+            ResultCode::KeyNotFoundError | ResultCode::KeyExistsError,
+            _,
+            _
+        )
+    )
 }
